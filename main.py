@@ -24,6 +24,14 @@ class SnakeGameClass:
         self.previousHead = 0, 0
 
         self.imgFood = cv2.imread(food_path, cv2.IMREAD_UNCHANGED)
+
+        if self.imgFood is None:
+            raise FileNotFoundError(f"Food image not found at path: {food_path}")
+
+            # Add an alpha channel if it doesn't exist
+        if self.imgFood.shape[2] == 3:
+            self.imgFood = cv2.cvtColor(self.imgFood, cv2.COLOR_BGR2BGRA)
+
         self.hFood, self.wFood, _ = self.imgFood.shape # dimension of the food
         self.foodPoint = 0, 0
         self.score = 0
@@ -99,7 +107,7 @@ class SnakeGameClass:
 
         return image
 
-game = SnakeGameClass("Donut.png")
+game = SnakeGameClass("donut2.png")
 
 while True:
     success, img = cap.read()
